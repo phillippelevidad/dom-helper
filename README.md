@@ -47,8 +47,10 @@ html();
 html("<p>some content</p>");
 text();
 text("some content");
-attr("disabled");
-attr("disabled", true);
+attr("href");
+attr("href", "https://www.example.com");
+prop("disabled");
+prop("disabled", true);
 
 contains(element || "selector");
 find("selector");
@@ -143,12 +145,20 @@ element.text("some content");
 collection.text("some content");
 
 // Read an attribute
-element.attr("disabled");
-collection.attr("disabled"); // reads the first element
+element.attr("href");
+collection.attr("href"); // reads the first element
 
 // Set an attribute
-element.attr("disabled", true);
-collection.attr("disabled", true); // sets all elements
+element.attr("href", "https://www.example.com");
+collection.attr("href", "https://www.example.com"); // sets all elements
+
+// Read an property
+element.prop("href");
+collection.prop("href"); // reads the first element
+
+// Set a property
+element.prop("disabled", true);
+collection.prop("disabled", true); // sets all elements
 ```
 
 ``` javascript
