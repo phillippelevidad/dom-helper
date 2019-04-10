@@ -207,3 +207,7 @@ collection.each(function (element, index) {});
 // Filter a colleciton of elements
 collection.filter(function (element, index) { return true | false; });
 ```
+
+----------
+
+**Motivation**: dom-helper can be seen as a subset of jQuery, so why use it? First, because it is very tiny (about 8kb minified), and second because not always you can use jQuery (e.g. project restrictions). But, depending on the job, you'll find yourself writing a lot of code to accomplish basic things in javascript, so this library helps with that.
