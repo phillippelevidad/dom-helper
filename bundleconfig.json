@@ -1,0 +1,51 @@
+[
+  {
+    "outputFileName": "build/dom-helpers.js",
+    "inputFiles": [
+      "src/*.js"
+    ],
+    "minify": { "enabled": false }
+  },
+  {
+    "outputFileName": "dist/css.min.js",
+    "inputFiles": [
+      "src/css.js"
+    ]
+  },
+  {
+    "outputFileName": "dist/events.min.js",
+    "inputFiles": [
+      "src/events.js"
+    ]
+  },
+  {
+    "outputFileName": "dist/manipulation.min.js",
+    "inputFiles": [
+      "src/manipulation.js"
+    ]
+  },
+  {
+    "outputFileName": "dist/selectors.min.js",
+    "inputFiles": [
+      "src/selectors.js"
+    ]
+  },
+  {
+    "outputFileName": "dist/traversal.min.js",
+    "inputFiles": [
+      "src/traversal.js"
+    ]
+  },
+  {
+    "outputFileName": "dist/util.min.js",
+    "inputFiles": [
+      "src/util.js"
+    ]
+  },
+  {
+    "outputFileName": "dist/dom-helpers.min.js",
+    "inputFiles": [
+      "build/dom-helpers.js"
+    ]
+  }
+]
