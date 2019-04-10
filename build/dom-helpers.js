@@ -17,7 +17,7 @@ HTMLElement.prototype.hasClass = function (className) {
 };
 
 Array.prototype.hasClass = HTMLCollection.prototype.hasClass = NodeList.prototype.hasClass = function (className) {
-    return Array.prototype.some.call(this, function (item) {
+    return Array.prototype.every.call(this, function (item) {
         return item.hasClass && item.hasClass(className);
     });
 };
@@ -93,6 +93,7 @@ Array.prototype.after = HTMLCollection.prototype.after = NodeList.prototype.afte
     Array.prototype.forEach.call(this, function (item) {
         item.after && item.after(htmlString);
     });
+    return this;
 };
 
 HTMLElement.prototype.append = function (element) {
@@ -104,6 +105,7 @@ Array.prototype.append = HTMLCollection.prototype.append = NodeList.prototype.ap
     Array.prototype.forEach.call(this, function (item) {
         item.append && item.append(element);
     });
+    return this;
 };
 
 HTMLElement.prototype.attr = function () {
@@ -137,6 +139,7 @@ Array.prototype.before = HTMLCollection.prototype.before = NodeList.prototype.be
     Array.prototype.forEach.call(this, function (item) {
         item.before && item.before(htmlString);
     });
+    return this;
 };
 
 HTMLElement.prototype.clone = function () {
@@ -169,6 +172,7 @@ Array.prototype.fadeIn = HTMLCollection.prototype.fadeIn = NodeList.prototype.fa
     Array.prototype.forEach.call(this, function (item) {
         item.fadeIn && item.fadeIn(callback);
     });
+    return this;
 };
 
 HTMLElement.prototype.html = function () {
@@ -203,6 +207,29 @@ Array.prototype.prepend = HTMLCollection.prototype.prepend = NodeList.prototype.
     Array.prototype.forEach.call(this, function (item) {
         item.prepend && item.prepend(element);
     });
+    return this;
+};
+
+HTMLElement.prototype.prop = function () {
+    if (arguments.length === 1 && typeof arguments[0] === "string") return this[arguments[0]];
+    if (arguments.length === 2 && typeof arguments[0] === "string") {
+        this[arguments[0]] = arguments[1];
+        return this;
+    }
+};
+
+Array.prototype.prop = HTMLCollection.prototype.prop = NodeList.prototype.prop = function () {
+    if (arguments.length === 1 && typeof arguments[0] === "string") {
+        if (this.length === 0) return null;
+        return this[0].prop ? this[0].prop(arguments[0]) : null;
+    }
+    if (arguments.length === 2 && typeof arguments[0] === "string") {
+        var args = arguments;
+        Array.prototype.forEach.call(this, function (item) {
+            item.prop && item.prop(args[0], args[1]);
+        });
+        return this;
+    }
 };
 
 HTMLElement.prototype.remove = function () {
@@ -314,7 +341,9 @@ Array.prototype.parent = HTMLCollection.prototype.parent = NodeList.prototype.pa
 
 HTMLElement.prototype.parents = function (selector) {
     if (this.parentNode === null) return null;
-    if (this.parentNode.matches(selector)) return this.parentNode;
+    if ((this.parentNode.matches || this.parentNode.matchesSelector ||
+        this.parentNode.msMatchesSelector || this.parentNode.mozMatchesSelector ||
+        this.parentNode.webkitMatchesSelector || this.parentNode.oMatchesSelector).call(this.parentNode, selector)) return this.parentNode;
     return this.parentNode.parents(selector);
 };
 
@@ -336,10 +365,4 @@ HTMLCollection.prototype.each = NodeList.prototype.each = function (callback) {
 
 HTMLCollection.prototype.filter = NodeList.prototype.filter = function (fnFilter) {
     return Array.prototype.filter.call(this, fnFilter);
-};
-
-document.parseHTML = function (htmlString) {
-    var tmp = document.implementation.createHTMLDocument();
-    tmp.body.innerHTML = htmlString;
-    return tmp.body.children;
 };

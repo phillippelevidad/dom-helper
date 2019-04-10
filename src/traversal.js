@@ -36,7 +36,9 @@ Array.prototype.parent = HTMLCollection.prototype.parent = NodeList.prototype.pa
 
 HTMLElement.prototype.parents = function (selector) {
     if (this.parentNode === null) return null;
-    if (this.parentNode.matches(selector)) return this.parentNode;
+    if ((this.parentNode.matches || this.parentNode.matchesSelector ||
+        this.parentNode.msMatchesSelector || this.parentNode.mozMatchesSelector ||
+        this.parentNode.webkitMatchesSelector || this.parentNode.oMatchesSelector).call(this.parentNode, selector)) return this.parentNode;
     return this.parentNode.parents(selector);
 };
 

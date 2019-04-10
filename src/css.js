@@ -17,7 +17,7 @@ HTMLElement.prototype.hasClass = function (className) {
 };
 
 Array.prototype.hasClass = HTMLCollection.prototype.hasClass = NodeList.prototype.hasClass = function (className) {
-    return Array.prototype.some.call(this, function (item) {
+    return Array.prototype.every.call(this, function (item) {
         return item.hasClass && item.hasClass(className);
     });
 };

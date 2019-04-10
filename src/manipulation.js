@@ -7,6 +7,7 @@ Array.prototype.after = HTMLCollection.prototype.after = NodeList.prototype.afte
     Array.prototype.forEach.call(this, function (item) {
         item.after && item.after(htmlString);
     });
+    return this;
 };
 
 HTMLElement.prototype.append = function (element) {
@@ -18,6 +19,7 @@ Array.prototype.append = HTMLCollection.prototype.append = NodeList.prototype.ap
     Array.prototype.forEach.call(this, function (item) {
         item.append && item.append(element);
     });
+    return this;
 };
 
 HTMLElement.prototype.attr = function () {
@@ -51,6 +53,7 @@ Array.prototype.before = HTMLCollection.prototype.before = NodeList.prototype.be
     Array.prototype.forEach.call(this, function (item) {
         item.before && item.before(htmlString);
     });
+    return this;
 };
 
 HTMLElement.prototype.clone = function () {
@@ -83,6 +86,7 @@ Array.prototype.fadeIn = HTMLCollection.prototype.fadeIn = NodeList.prototype.fa
     Array.prototype.forEach.call(this, function (item) {
         item.fadeIn && item.fadeIn(callback);
     });
+    return this;
 };
 
 HTMLElement.prototype.html = function () {
@@ -117,6 +121,29 @@ Array.prototype.prepend = HTMLCollection.prototype.prepend = NodeList.prototype.
     Array.prototype.forEach.call(this, function (item) {
         item.prepend && item.prepend(element);
     });
+    return this;
+};
+
+HTMLElement.prototype.prop = function () {
+    if (arguments.length === 1 && typeof arguments[0] === "string") return this[arguments[0]];
+    if (arguments.length === 2 && typeof arguments[0] === "string") {
+        this[arguments[0]] = arguments[1];
+        return this;
+    }
+};
+
+Array.prototype.prop = HTMLCollection.prototype.prop = NodeList.prototype.prop = function () {
+    if (arguments.length === 1 && typeof arguments[0] === "string") {
+        if (this.length === 0) return null;
+        return this[0].prop ? this[0].prop(arguments[0]) : null;
+    }
+    if (arguments.length === 2 && typeof arguments[0] === "string") {
+        var args = arguments;
+        Array.prototype.forEach.call(this, function (item) {
+            item.prop && item.prop(args[0], args[1]);
+        });
+        return this;
+    }
 };
 
 HTMLElement.prototype.remove = function () {
