@@ -43,6 +43,7 @@ append(anotherElement);
 prepend(anotherElement);
 clone();
 fadeIn();
+hide();
 html();
 html("<p>some content</p>");
 text();
@@ -51,6 +52,7 @@ attr("href");
 attr("href", "https://www.example.com");
 prop("disabled");
 prop("disabled", true);
+show();
 
 contains(element || "selector");
 find("selector");
@@ -128,6 +130,10 @@ collection.clone(); // returns an Array with the clone of the first element, or 
 element.fadeIn();
 collection.fadeIn();
 
+// Hide
+element.hide();
+collection.hide();
+
 // Read the HTML content
 element.html();
 collection.html(); // the HTML of the first element
@@ -159,6 +165,10 @@ collection.prop("href"); // reads the first element
 // Set a property
 element.prop("disabled", true);
 collection.prop("disabled", true); // sets all elements
+
+// Show
+element.show();
+collection.show();
 ```
 
 ``` javascript
