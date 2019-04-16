@@ -183,6 +183,18 @@ HTMLElement.prototype.html = function () {
     }
 };
 
+HTMLElement.prototype.hide = function () {
+    this.style.display = "none";
+    return this;
+};
+
+Array.prototype.hide = HTMLCollection.prototype.hide = NodeList.prototype.hide = function () {
+    Array.prototype.forEach.call(this, function (item) {
+        item.hide();
+    });
+    return this;
+};
+
 Array.prototype.html = HTMLCollection.prototype.html = NodeList.prototype.html = function () {
     if (arguments.length === 0) {
         if (this.length === 0 || !this[0].html) return null;
@@ -244,6 +256,18 @@ Array.prototype.remove = HTMLCollection.prototype.remove = NodeList.prototype.re
     return this;
 };
 
+HTMLElement.prototype.show = function () {
+    this.style.display = "";
+    return this;
+};
+
+Array.prototype.show = HTMLCollection.prototype.show = NodeList.prototype.show = function () {
+    Array.prototype.forEach.call(this, function (item) {
+        item.show();
+    });
+    return this;
+};
+
 HTMLElement.prototype.text = function () {
     if (arguments.length === 0) return this.textContent;
     if (arguments.length === 1) {
@@ -272,6 +296,10 @@ HTMLElement.prototype.contains = function (childOrSelector) {
     return this !== childOrSelector && this.containsOriginal(childOrSelector);
 };
 
+HTMLDocument.prototype.contains = function (childOrSelector) {
+    return document.body.contains(childOrSelector);
+};
+
 Array.prototype.contains = HTMLCollection.prototype.contains = NodeList.prototype.contains = function (childOrSelector) {
     return Array.prototype.every.call(this, function (item) {
         return item && item.contains && item.contains(childOrSelector);
@@ -280,6 +308,10 @@ Array.prototype.contains = HTMLCollection.prototype.contains = NodeList.prototyp
 
 HTMLElement.prototype.find = function (selector) {
     return this.querySelectorAll(selector);
+};
+
+HTMLDocument.prototype.find = function (selector) {
+    return document.body.find(selector);
 };
 
 Array.prototype.find = HTMLCollection.prototype.find = NodeList.prototype.find = function (selector) {
@@ -293,7 +325,7 @@ Array.prototype.find = HTMLCollection.prototype.find = NodeList.prototype.find =
 HTMLElement.prototype.is = function (elementOrSelector) {
     if (typeof elementOrSelector === "string")
         return (this.matches || this.matchesSelector || this.msMatchesSelector || this.mozMatchesSelector || this.webkitMatchesSelector || this.oMatchesSelector)
-            .call(el, elementOrSelector);
+            .call(this, elementOrSelector);
     return this === elementOrSelector;
 };
 

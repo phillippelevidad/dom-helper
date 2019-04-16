@@ -97,6 +97,18 @@ HTMLElement.prototype.html = function () {
     }
 };
 
+HTMLElement.prototype.hide = function () {
+    this.style.display = "none";
+    return this;
+};
+
+Array.prototype.hide = HTMLCollection.prototype.hide = NodeList.prototype.hide = function () {
+    Array.prototype.forEach.call(this, function (item) {
+        item.hide();
+    });
+    return this;
+};
+
 Array.prototype.html = HTMLCollection.prototype.html = NodeList.prototype.html = function () {
     if (arguments.length === 0) {
         if (this.length === 0 || !this[0].html) return null;
@@ -154,6 +166,18 @@ HTMLElement.prototype.remove = function () {
 Array.prototype.remove = HTMLCollection.prototype.remove = NodeList.prototype.remove = function () {
     Array.prototype.forEach.call(this, function (item) {
         item.remove && item.remove();
+    });
+    return this;
+};
+
+HTMLElement.prototype.show = function () {
+    this.style.display = "";
+    return this;
+};
+
+Array.prototype.show = HTMLCollection.prototype.show = NodeList.prototype.show = function () {
+    Array.prototype.forEach.call(this, function (item) {
+        item.show();
     });
     return this;
 };

@@ -4,6 +4,10 @@ HTMLElement.prototype.contains = function (childOrSelector) {
     return this !== childOrSelector && this.containsOriginal(childOrSelector);
 };
 
+HTMLDocument.prototype.contains = function (childOrSelector) {
+    return document.body.contains(childOrSelector);
+};
+
 Array.prototype.contains = HTMLCollection.prototype.contains = NodeList.prototype.contains = function (childOrSelector) {
     return Array.prototype.every.call(this, function (item) {
         return item && item.contains && item.contains(childOrSelector);
@@ -12,6 +16,10 @@ Array.prototype.contains = HTMLCollection.prototype.contains = NodeList.prototyp
 
 HTMLElement.prototype.find = function (selector) {
     return this.querySelectorAll(selector);
+};
+
+HTMLDocument.prototype.find = function (selector) {
+    return document.body.find(selector);
 };
 
 Array.prototype.find = HTMLCollection.prototype.find = NodeList.prototype.find = function (selector) {
@@ -25,7 +33,7 @@ Array.prototype.find = HTMLCollection.prototype.find = NodeList.prototype.find =
 HTMLElement.prototype.is = function (elementOrSelector) {
     if (typeof elementOrSelector === "string")
         return (this.matches || this.matchesSelector || this.msMatchesSelector || this.mozMatchesSelector || this.webkitMatchesSelector || this.oMatchesSelector)
-            .call(el, elementOrSelector);
+            .call(this, elementOrSelector);
     return this === elementOrSelector;
 };
 
