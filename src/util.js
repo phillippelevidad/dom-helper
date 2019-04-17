@@ -8,9 +8,8 @@ ArrayOfHTMLElements.prototype.filter = HTMLCollection.prototype.filter = NodeLis
 };
 
 ArrayOfHTMLElements.prototype.map = HTMLCollection.prototype.map = NodeList.prototype.map = function (fnMap) {
-    var mapped = Array.prototype.map.call(this, fnMap);
-    var results = new ArrayOfHTMLElements(mapped.length);
-    for (var i = 0; i < mapped.length; i++)
-        results[i] = mapped[i];
-    return this;
+    var mapped = new ArrayOfHTMLElements();
+    for (var i = 0; i < this.length; i++)
+        mapped.push(fnMap.call(this[i], this[i], i));
+    return mapped;
 };

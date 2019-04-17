@@ -191,14 +191,13 @@ HTMLElement.prototype.text = function () {
 };
 
 ArrayOfHTMLElements.prototype.text = HTMLCollection.prototype.text = NodeList.prototype.text = function () {
-    if (arguments.length === 0) {
-        if (this.length === 0 || !this[0].text) return null;
-        return this[0].text();
-    }
+    if (arguments.length === 0)
+        return this.length === 0 ? null : this[0].textContent;
+
     if (arguments.length === 1) {
         var args = arguments;
         Array.prototype.forEach.call(this, function (item) {
-            item.text && item.text(args[0]);
+            item.text(args[0]);
         });
         return this;
     }

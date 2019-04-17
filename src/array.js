@@ -1,7 +1,7 @@
 ﻿function ArrayOfHTMLElements() {
     var arr = [];
     arr.push.apply(arr, arguments);
-    arr.__proto__ = SubArray.prototype;
+    arr.__proto__ = ArrayOfHTMLElements.prototype;
     return arr;
 }
 

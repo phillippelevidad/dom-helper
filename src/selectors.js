@@ -10,7 +10,7 @@ HTMLDocument.prototype.contains = function (childOrSelector) {
 
 ArrayOfHTMLElements.prototype.contains = HTMLCollection.prototype.contains = NodeList.prototype.contains = function (childOrSelector) {
     return Array.prototype.every.call(this, function (item) {
-        return item && item.contains && item.contains(childOrSelector);
+        return item.contains(childOrSelector);
     });
 };
 
@@ -25,7 +25,9 @@ HTMLDocument.prototype.find = function (selector) {
 ArrayOfHTMLElements.prototype.find = HTMLCollection.prototype.find = NodeList.prototype.find = function (selector) {
     var found = new ArrayOfHTMLElements();
     Array.prototype.forEach.call(this, function (item) {
-        item.find && found.push(item.find(selector));
+        var partial = item.find(selector);
+        for (var i = 0; i < partial.length; i++)
+            found.push(partial[i]);
     });
     return found;
 };
@@ -39,6 +41,6 @@ HTMLElement.prototype.is = function (elementOrSelector) {
 
 ArrayOfHTMLElements.prototype.is = HTMLCollection.prototype.is = NodeList.prototype.is = function (elementOrSelector) {
     return Array.prototype.every.call(this, function (item) {
-        return item && item.is && item.is(elementOrSelector);
+        return item.is(elementOrSelector);
     });
 };

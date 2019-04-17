@@ -1,7 +1,7 @@
 function ArrayOfHTMLElements() {
     var arr = [];
     arr.push.apply(arr, arguments);
-    arr.__proto__ = SubArray.prototype;
+    arr.__proto__ = ArrayOfHTMLElements.prototype;
     return arr;
 }
 
@@ -286,14 +286,13 @@ HTMLElement.prototype.text = function () {
 };
 
 ArrayOfHTMLElements.prototype.text = HTMLCollection.prototype.text = NodeList.prototype.text = function () {
-    if (arguments.length === 0) {
-        if (this.length === 0 || !this[0].text) return null;
-        return this[0].text();
-    }
+    if (arguments.length === 0)
+        return this.length === 0 ? null : this[0].textContent;
+
     if (arguments.length === 1) {
         var args = arguments;
         Array.prototype.forEach.call(this, function (item) {
-            item.text && item.text(args[0]);
+            item.text(args[0]);
         });
         return this;
     }
@@ -311,7 +310,7 @@ HTMLDocument.prototype.contains = function (childOrSelector) {
 
 ArrayOfHTMLElements.prototype.contains = HTMLCollection.prototype.contains = NodeList.prototype.contains = function (childOrSelector) {
     return Array.prototype.every.call(this, function (item) {
-        return item && item.contains && item.contains(childOrSelector);
+        return item.contains(childOrSelector);
     });
 };
 
@@ -326,7 +325,9 @@ HTMLDocument.prototype.find = function (selector) {
 ArrayOfHTMLElements.prototype.find = HTMLCollection.prototype.find = NodeList.prototype.find = function (selector) {
     var found = new ArrayOfHTMLElements();
     Array.prototype.forEach.call(this, function (item) {
-        item.find && found.push(item.find(selector));
+        var partial = item.find(selector);
+        for (var i = 0; i < partial.length; i++)
+            found.push(partial[i]);
     });
     return found;
 };
@@ -340,7 +341,7 @@ HTMLElement.prototype.is = function (elementOrSelector) {
 
 ArrayOfHTMLElements.prototype.is = HTMLCollection.prototype.is = NodeList.prototype.is = function (elementOrSelector) {
     return Array.prototype.every.call(this, function (item) {
-        return item && item.is && item.is(elementOrSelector);
+        return item.is(elementOrSelector);
     });
 };
 
@@ -409,9 +410,8 @@ ArrayOfHTMLElements.prototype.filter = HTMLCollection.prototype.filter = NodeLis
 };
 
 ArrayOfHTMLElements.prototype.map = HTMLCollection.prototype.map = NodeList.prototype.map = function (fnMap) {
-    var mapped = Array.prototype.map.call(this, fnMap);
-    var results = new ArrayOfHTMLElements(mapped.length);
-    for (var i = 0; i < mapped.length; i++)
-        results[i] = mapped[i];
-    return this;
+    var mapped = new ArrayOfHTMLElements();
+    for (var i = 0; i < this.length; i++)
+        mapped.push(fnMap.call(this[i], this[i], i));
+    return mapped;
 };
