@@ -2,8 +2,8 @@
     return this.nextElementSibling;
 };
 
-Array.prototype.next = HTMLCollection.prototype.next = NodeList.prototype.next = function () {
-    var collection = new Array();
+ArrayOfHTMLElements.prototype.next = HTMLCollection.prototype.next = NodeList.prototype.next = function () {
+    var collection = new ArrayOfHTMLElements();
     Array.prototype.forEach.call(this, function (item) {
         item.nextElementSibling && collection.push(nextElementSibling);
     });
@@ -14,8 +14,8 @@ HTMLElement.prototype.prev = function () {
     return this.previousElementSibling;
 };
 
-Array.prototype.prev = HTMLCollection.prototype.prev = NodeList.prototype.prev = function () {
-    var collection = new Array();
+ArrayOfHTMLElements.prototype.prev = HTMLCollection.prototype.prev = NodeList.prototype.prev = function () {
+    var collection = new ArrayOfHTMLElements();
     Array.prototype.forEach.call(this, function (item) {
         item.previousElementSibling && collection.push(previousElementSibling);
     });
@@ -26,8 +26,8 @@ HTMLElement.prototype.parent = function () {
     return this.parentNode;
 };
 
-Array.prototype.parent = HTMLCollection.prototype.parent = NodeList.prototype.parent = function () {
-    var collection = new Array();
+ArrayOfHTMLElements.prototype.parent = HTMLCollection.prototype.parent = NodeList.prototype.parent = function () {
+    var collection = new ArrayOfHTMLElements();
     Array.prototype.forEach.call(this, function (item) {
         item.parentNode && collection.push(parentNode);
     });
@@ -42,8 +42,8 @@ HTMLElement.prototype.parents = function (selector) {
     return this.parentNode.parents(selector);
 };
 
-Array.prototype.parents = HTMLCollection.prototype.parents = NodeList.prototype.parents = function (selector) {
-    var collection = new Array();
+ArrayOfHTMLElements.prototype.parents = HTMLCollection.prototype.parents = NodeList.prototype.parents = function (selector) {
+    var collection = new ArrayOfHTMLElements();
     Array.prototype.forEach.call(this, function (item) {
         if (item.parents) {
             var p = item.parents(selector);

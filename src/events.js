@@ -2,7 +2,7 @@
     this.removeEventListener(eventName, eventHandler);
 };
 
-Array.prototype.off = HTMLCollection.prototype.off = NodeList.prototype.off = function (eventName, eventHandler) {
+ArrayOfHTMLElements.prototype.off = HTMLCollection.prototype.off = NodeList.prototype.off = function (eventName, eventHandler) {
     Array.prototype.forEach.call(this, function (item) {
         item.off && item.off(eventName, eventHandler);
     });
@@ -14,7 +14,7 @@ HTMLElement.prototype.on = function (eventName, eventHandler) {
     return this;
 };
 
-Array.prototype.on = HTMLCollection.prototype.on = NodeList.prototype.on = function (eventName, eventHandler) {
+ArrayOfHTMLElements.prototype.on = HTMLCollection.prototype.on = NodeList.prototype.on = function (eventName, eventHandler) {
     Array.prototype.forEach.call(this, function (item) {
         item.on && item.on(eventName, eventHandler);
     });
@@ -39,7 +39,7 @@ HTMLElement.prototype.trigger = function () {
     }
 };
 
-Array.prototype.trigger = HTMLCollection.prototype.trigger = NodeList.prototype.trigger = function () {
+ArrayOfHTMLElements.prototype.trigger = HTMLCollection.prototype.trigger = NodeList.prototype.trigger = function () {
     var args = arguments;
     Array.prototype.forEach.call(this, function (item) {
         item.on && item.on.apply(item, args);

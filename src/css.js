@@ -4,7 +4,7 @@
     return this;
 };
 
-Array.prototype.addClass = HTMLCollection.prototype.addClass = NodeList.prototype.addClass = function (className) {
+ArrayOfHTMLElements.prototype.addClass = HTMLCollection.prototype.addClass = NodeList.prototype.addClass = function (className) {
     Array.prototype.forEach.call(this, function (item) {
         item.addClass && item.addClass(className);
     });
@@ -16,7 +16,7 @@ HTMLElement.prototype.hasClass = function (className) {
     else return new RegExp("(^| )" + className + "( |$)", "gi").test(this.className);
 };
 
-Array.prototype.hasClass = HTMLCollection.prototype.hasClass = NodeList.prototype.hasClass = function (className) {
+ArrayOfHTMLElements.prototype.hasClass = HTMLCollection.prototype.hasClass = NodeList.prototype.hasClass = function (className) {
     return Array.prototype.every.call(this, function (item) {
         return item.hasClass && item.hasClass(className);
     });
@@ -28,7 +28,7 @@ HTMLElement.prototype.removeClass = function (className) {
     return this;
 };
 
-Array.prototype.removeClass = HTMLCollection.prototype.removeClass = NodeList.prototype.removeClass = function (className) {
+ArrayOfHTMLElements.prototype.removeClass = HTMLCollection.prototype.removeClass = NodeList.prototype.removeClass = function (className) {
     Array.prototype.forEach.call(this, function (item) {
         item.removeClass && item.removeClass(className);
     });

@@ -1,10 +1,19 @@
+function ArrayOfHTMLElements() {
+    var arr = [];
+    arr.push.apply(arr, arguments);
+    arr.__proto__ = SubArray.prototype;
+    return arr;
+}
+
+ArrayOfHTMLElements.prototype = new Array;
+
 HTMLElement.prototype.addClass = function (className) {
     if (this.classList) this.classList.add(className);
     else this.className += " " + className;
     return this;
 };
 
-Array.prototype.addClass = HTMLCollection.prototype.addClass = NodeList.prototype.addClass = function (className) {
+ArrayOfHTMLElements.prototype.addClass = HTMLCollection.prototype.addClass = NodeList.prototype.addClass = function (className) {
     Array.prototype.forEach.call(this, function (item) {
         item.addClass && item.addClass(className);
     });
@@ -16,7 +25,7 @@ HTMLElement.prototype.hasClass = function (className) {
     else return new RegExp("(^| )" + className + "( |$)", "gi").test(this.className);
 };
 
-Array.prototype.hasClass = HTMLCollection.prototype.hasClass = NodeList.prototype.hasClass = function (className) {
+ArrayOfHTMLElements.prototype.hasClass = HTMLCollection.prototype.hasClass = NodeList.prototype.hasClass = function (className) {
     return Array.prototype.every.call(this, function (item) {
         return item.hasClass && item.hasClass(className);
     });
@@ -28,7 +37,7 @@ HTMLElement.prototype.removeClass = function (className) {
     return this;
 };
 
-Array.prototype.removeClass = HTMLCollection.prototype.removeClass = NodeList.prototype.removeClass = function (className) {
+ArrayOfHTMLElements.prototype.removeClass = HTMLCollection.prototype.removeClass = NodeList.prototype.removeClass = function (className) {
     Array.prototype.forEach.call(this, function (item) {
         item.removeClass && item.removeClass(className);
     });
@@ -39,7 +48,7 @@ HTMLElement.prototype.off = function (eventName, eventHandler) {
     this.removeEventListener(eventName, eventHandler);
 };
 
-Array.prototype.off = HTMLCollection.prototype.off = NodeList.prototype.off = function (eventName, eventHandler) {
+ArrayOfHTMLElements.prototype.off = HTMLCollection.prototype.off = NodeList.prototype.off = function (eventName, eventHandler) {
     Array.prototype.forEach.call(this, function (item) {
         item.off && item.off(eventName, eventHandler);
     });
@@ -51,7 +60,7 @@ HTMLElement.prototype.on = function (eventName, eventHandler) {
     return this;
 };
 
-Array.prototype.on = HTMLCollection.prototype.on = NodeList.prototype.on = function (eventName, eventHandler) {
+ArrayOfHTMLElements.prototype.on = HTMLCollection.prototype.on = NodeList.prototype.on = function (eventName, eventHandler) {
     Array.prototype.forEach.call(this, function (item) {
         item.on && item.on(eventName, eventHandler);
     });
@@ -76,7 +85,7 @@ HTMLElement.prototype.trigger = function () {
     }
 };
 
-Array.prototype.trigger = HTMLCollection.prototype.trigger = NodeList.prototype.trigger = function () {
+ArrayOfHTMLElements.prototype.trigger = HTMLCollection.prototype.trigger = NodeList.prototype.trigger = function () {
     var args = arguments;
     Array.prototype.forEach.call(this, function (item) {
         item.on && item.on.apply(item, args);
@@ -89,7 +98,7 @@ HTMLElement.prototype.after = function (htmlString) {
     return this;
 };
 
-Array.prototype.after = HTMLCollection.prototype.after = NodeList.prototype.after = function (htmlString) {
+ArrayOfHTMLElements.prototype.after = HTMLCollection.prototype.after = NodeList.prototype.after = function (htmlString) {
     Array.prototype.forEach.call(this, function (item) {
         item.after && item.after(htmlString);
     });
@@ -101,7 +110,7 @@ HTMLElement.prototype.append = function (element) {
     return this;
 };
 
-Array.prototype.append = HTMLCollection.prototype.append = NodeList.prototype.append = function (element) {
+ArrayOfHTMLElements.prototype.append = HTMLCollection.prototype.append = NodeList.prototype.append = function (element) {
     Array.prototype.forEach.call(this, function (item) {
         item.append && item.append(element);
     });
@@ -116,7 +125,7 @@ HTMLElement.prototype.attr = function () {
     }
 };
 
-Array.prototype.attr = HTMLCollection.prototype.attr = NodeList.prototype.attr = function () {
+ArrayOfHTMLElements.prototype.attr = HTMLCollection.prototype.attr = NodeList.prototype.attr = function () {
     if (arguments.length === 1 && typeof arguments[0] === "string") {
         if (this.length === 0) return null;
         return this[0].attr ? this[0].attr(arguments[0]) : null;
@@ -135,7 +144,7 @@ HTMLElement.prototype.before = function (htmlString) {
     return this;
 };
 
-Array.prototype.before = HTMLCollection.prototype.before = NodeList.prototype.before = function (htmlString) {
+ArrayOfHTMLElements.prototype.before = HTMLCollection.prototype.before = NodeList.prototype.before = function (htmlString) {
     Array.prototype.forEach.call(this, function (item) {
         item.before && item.before(htmlString);
     });
@@ -146,8 +155,8 @@ HTMLElement.prototype.clone = function () {
     return this.cloneNode(true);
 };
 
-Array.prototype.clone = HTMLCollection.prototype.clone = NodeList.prototype.clone = function (htmlString) {
-    if (this.length === 0 || !this[0].clone) return new Array();
+ArrayOfHTMLElements.prototype.clone = HTMLCollection.prototype.clone = NodeList.prototype.clone = function (htmlString) {
+    if (this.length === 0 || !this[0].clone) return new ArrayOfHTMLElements();
     return [this[0].clone()];
 };
 
@@ -168,7 +177,7 @@ HTMLElement.prototype.fadeIn = function (callback) {
     return this;
 };
 
-Array.prototype.fadeIn = HTMLCollection.prototype.fadeIn = NodeList.prototype.fadeIn = function (callback) {
+ArrayOfHTMLElements.prototype.fadeIn = HTMLCollection.prototype.fadeIn = NodeList.prototype.fadeIn = function (callback) {
     Array.prototype.forEach.call(this, function (item) {
         item.fadeIn && item.fadeIn(callback);
     });
@@ -183,19 +192,7 @@ HTMLElement.prototype.html = function () {
     }
 };
 
-HTMLElement.prototype.hide = function () {
-    this.style.display = "none";
-    return this;
-};
-
-Array.prototype.hide = HTMLCollection.prototype.hide = NodeList.prototype.hide = function () {
-    Array.prototype.forEach.call(this, function (item) {
-        item.hide();
-    });
-    return this;
-};
-
-Array.prototype.html = HTMLCollection.prototype.html = NodeList.prototype.html = function () {
+ArrayOfHTMLElements.prototype.html = HTMLCollection.prototype.html = NodeList.prototype.html = function () {
     if (arguments.length === 0) {
         if (this.length === 0 || !this[0].html) return null;
         return this[0].html();
@@ -209,13 +206,25 @@ Array.prototype.html = HTMLCollection.prototype.html = NodeList.prototype.html =
     }
 };
 
+HTMLElement.prototype.hide = function () {
+    this.style.display = "none";
+    return this;
+};
+
+ArrayOfHTMLElements.prototype.hide = HTMLCollection.prototype.hide = NodeList.prototype.hide = function () {
+    Array.prototype.forEach.call(this, function (item) {
+        item.hide();
+    });
+    return this;
+};
+
 HTMLElement.prototype.prepend = function (element) {
     if (this.firstChild !== null) this.insertBefore(element, this.firstChild);
     else this.appendChild(element);
     return this;
 };
 
-Array.prototype.prepend = HTMLCollection.prototype.prepend = NodeList.prototype.prepend = function (element) {
+ArrayOfHTMLElements.prototype.prepend = HTMLCollection.prototype.prepend = NodeList.prototype.prepend = function (element) {
     Array.prototype.forEach.call(this, function (item) {
         item.prepend && item.prepend(element);
     });
@@ -230,7 +239,7 @@ HTMLElement.prototype.prop = function () {
     }
 };
 
-Array.prototype.prop = HTMLCollection.prototype.prop = NodeList.prototype.prop = function () {
+ArrayOfHTMLElements.prototype.prop = HTMLCollection.prototype.prop = NodeList.prototype.prop = function () {
     if (arguments.length === 1 && typeof arguments[0] === "string") {
         if (this.length === 0) return null;
         return this[0].prop ? this[0].prop(arguments[0]) : null;
@@ -249,7 +258,7 @@ HTMLElement.prototype.remove = function () {
     return this;
 };
 
-Array.prototype.remove = HTMLCollection.prototype.remove = NodeList.prototype.remove = function () {
+ArrayOfHTMLElements.prototype.remove = HTMLCollection.prototype.remove = NodeList.prototype.remove = function () {
     Array.prototype.forEach.call(this, function (item) {
         item.remove && item.remove();
     });
@@ -261,7 +270,7 @@ HTMLElement.prototype.show = function () {
     return this;
 };
 
-Array.prototype.show = HTMLCollection.prototype.show = NodeList.prototype.show = function () {
+ArrayOfHTMLElements.prototype.show = HTMLCollection.prototype.show = NodeList.prototype.show = function () {
     Array.prototype.forEach.call(this, function (item) {
         item.show();
     });
@@ -276,7 +285,7 @@ HTMLElement.prototype.text = function () {
     }
 };
 
-Array.prototype.text = HTMLCollection.prototype.text = NodeList.prototype.text = function () {
+ArrayOfHTMLElements.prototype.text = HTMLCollection.prototype.text = NodeList.prototype.text = function () {
     if (arguments.length === 0) {
         if (this.length === 0 || !this[0].text) return null;
         return this[0].text();
@@ -300,7 +309,7 @@ HTMLDocument.prototype.contains = function (childOrSelector) {
     return document.body.contains(childOrSelector);
 };
 
-Array.prototype.contains = HTMLCollection.prototype.contains = NodeList.prototype.contains = function (childOrSelector) {
+ArrayOfHTMLElements.prototype.contains = HTMLCollection.prototype.contains = NodeList.prototype.contains = function (childOrSelector) {
     return Array.prototype.every.call(this, function (item) {
         return item && item.contains && item.contains(childOrSelector);
     });
@@ -314,8 +323,8 @@ HTMLDocument.prototype.find = function (selector) {
     return document.body.find(selector);
 };
 
-Array.prototype.find = HTMLCollection.prototype.find = NodeList.prototype.find = function (selector) {
-    var found = new Array();
+ArrayOfHTMLElements.prototype.find = HTMLCollection.prototype.find = NodeList.prototype.find = function (selector) {
+    var found = new ArrayOfHTMLElements();
     Array.prototype.forEach.call(this, function (item) {
         item.find && found.push(item.find(selector));
     });
@@ -329,7 +338,7 @@ HTMLElement.prototype.is = function (elementOrSelector) {
     return this === elementOrSelector;
 };
 
-Array.prototype.is = HTMLCollection.prototype.is = NodeList.prototype.is = function (elementOrSelector) {
+ArrayOfHTMLElements.prototype.is = HTMLCollection.prototype.is = NodeList.prototype.is = function (elementOrSelector) {
     return Array.prototype.every.call(this, function (item) {
         return item && item.is && item.is(elementOrSelector);
     });
@@ -339,8 +348,8 @@ HTMLElement.prototype.next = function () {
     return this.nextElementSibling;
 };
 
-Array.prototype.next = HTMLCollection.prototype.next = NodeList.prototype.next = function () {
-    var collection = new Array();
+ArrayOfHTMLElements.prototype.next = HTMLCollection.prototype.next = NodeList.prototype.next = function () {
+    var collection = new ArrayOfHTMLElements();
     Array.prototype.forEach.call(this, function (item) {
         item.nextElementSibling && collection.push(nextElementSibling);
     });
@@ -351,8 +360,8 @@ HTMLElement.prototype.prev = function () {
     return this.previousElementSibling;
 };
 
-Array.prototype.prev = HTMLCollection.prototype.prev = NodeList.prototype.prev = function () {
-    var collection = new Array();
+ArrayOfHTMLElements.prototype.prev = HTMLCollection.prototype.prev = NodeList.prototype.prev = function () {
+    var collection = new ArrayOfHTMLElements();
     Array.prototype.forEach.call(this, function (item) {
         item.previousElementSibling && collection.push(previousElementSibling);
     });
@@ -363,8 +372,8 @@ HTMLElement.prototype.parent = function () {
     return this.parentNode;
 };
 
-Array.prototype.parent = HTMLCollection.prototype.parent = NodeList.prototype.parent = function () {
-    var collection = new Array();
+ArrayOfHTMLElements.prototype.parent = HTMLCollection.prototype.parent = NodeList.prototype.parent = function () {
+    var collection = new ArrayOfHTMLElements();
     Array.prototype.forEach.call(this, function (item) {
         item.parentNode && collection.push(parentNode);
     });
@@ -379,8 +388,8 @@ HTMLElement.prototype.parents = function (selector) {
     return this.parentNode.parents(selector);
 };
 
-Array.prototype.parents = HTMLCollection.prototype.parents = NodeList.prototype.parents = function (selector) {
-    var collection = new Array();
+ArrayOfHTMLElements.prototype.parents = HTMLCollection.prototype.parents = NodeList.prototype.parents = function (selector) {
+    var collection = new ArrayOfHTMLElements();
     Array.prototype.forEach.call(this, function (item) {
         if (item.parents) {
             var p = item.parents(selector);
@@ -390,11 +399,19 @@ Array.prototype.parents = HTMLCollection.prototype.parents = NodeList.prototype.
     return collection;
 };
 
-HTMLCollection.prototype.each = NodeList.prototype.each = function (callback) {
-    Array.prototype.forEach.call(this, callback);
+ArrayOfHTMLElements.prototype.each = HTMLCollection.prototype.each = NodeList.prototype.each = function (fnEach) {
+    Array.prototype.forEach.call(this, fnEach);
     return this;
 };
 
-HTMLCollection.prototype.filter = NodeList.prototype.filter = function (fnFilter) {
+ArrayOfHTMLElements.prototype.filter = HTMLCollection.prototype.filter = NodeList.prototype.filter = function (fnFilter) {
     return Array.prototype.filter.call(this, fnFilter);
+};
+
+ArrayOfHTMLElements.prototype.map = HTMLCollection.prototype.map = NodeList.prototype.map = function (fnMap) {
+    var mapped = Array.prototype.map.call(this, fnMap);
+    var results = new ArrayOfHTMLElements(mapped.length);
+    for (var i = 0; i < mapped.length; i++)
+        results[i] = mapped[i];
+    return this;
 };

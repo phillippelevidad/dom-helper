@@ -64,7 +64,8 @@ parent();
 parents("selector");
 
 each(function (element, index) {});
-filter(function (element, index) { return true|false; })
+filter(function (element, index) { return true|false; });
+map(function (element) {});
 ```
 
 ## CSS
