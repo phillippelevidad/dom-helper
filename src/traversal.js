@@ -29,7 +29,7 @@ HTMLElement.prototype.parent = function () {
 ArrayOfHTMLElements.prototype.parent = HTMLCollection.prototype.parent = NodeList.prototype.parent = function () {
     var collection = new ArrayOfHTMLElements();
     Array.prototype.forEach.call(this, function (item) {
-        item.parentNode && collection.push(parentNode);
+        item.parentNode && collection.push(item.parentNode);
     });
     return collection;
 };
