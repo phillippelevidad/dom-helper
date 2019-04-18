@@ -92,7 +92,7 @@ ArrayOfHTMLElements.prototype.fadeIn = HTMLCollection.prototype.fadeIn = NodeLis
 HTMLElement.prototype.html = function () {
     if (arguments.length === 0) return this.innerHTML;
     if (arguments.length === 1) {
-        this.innerHTML = arguments[1] || "";
+        this.innerHTML = arguments[0] || "";
         return this;
     }
 };
@@ -185,7 +185,7 @@ ArrayOfHTMLElements.prototype.show = HTMLCollection.prototype.show = NodeList.pr
 HTMLElement.prototype.text = function () {
     if (arguments.length === 0) return this.textContent;
     if (arguments.length === 1) {
-        this.textContent = arguments[1] || "";
+        this.textContent = arguments[0] || "";
         return this;
     }
 };
